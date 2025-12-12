@@ -1,8 +1,359 @@
-<html>
-  <head>
-    <title>Jentz Band</title>
-  </head>
-  <body>
-    <h1>Hello world. It's the Jentz Band.</h1>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Jentz | Pittsburgh's Premier Rock Band</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #111;
+            color: #eee;
+        }
+        h1, h2, h3, h4, h5, h6, .nav-link {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1501612780327-45045538702b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .accent-text {
+            color: #e11d48; /* Rose-600 */
+        }
+        .btn-primary {
+            background-color: #e11d48;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #be123c;
+            transform: translateY(-2px);
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #e11d48;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-3xl font-bold tracking-wider text-white">THE <span class="accent-text">JENTZ</span></a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="nav-link text-white hover:text-gray-300 px-3 py-2 text-lg font-medium">Home</a>
+                        <a href="#about" class="nav-link text-white hover:text-gray-300 px-3 py-2 text-lg font-medium">About</a>
+                        <a href="#shows" class="nav-link text-white hover:text-gray-300 px-3 py-2 text-lg font-medium">Shows</a>
+                        <a href="#contact" class="nav-link text-white hover:text-gray-300 px-3 py-2 text-lg font-medium">Contact</a>
+                        <a href="https://www.facebook.com/p/The-Jentz-Band-100089855997372/" target="_blank" class="text-blue-500 hover:text-blue-400 transition-colors">
+                            <i data-lucide="facebook" class="w-6 h-6"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none">
+                        <i data-lucide="menu" class="w-8 h-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-gray-900">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="#home" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-800">Home</a>
+                <a href="#about" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-800">About</a>
+                <a href="#shows" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-800">Shows</a>
+                <a href="#contact" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-800">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg h-screen flex items-center justify-center text-center px-4">
+        <div class="max-w-4xl mx-auto pt-16">
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-xl tracking-wider">
+                ROCKING <span class="accent-text">PITTSBURGH</span> & BEYOND
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-200 mb-10 font-light tracking-wide">
+                Classic Rock | High Energy | Live Entertainment
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#shows" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-lg uppercase tracking-wider shadow-lg">
+                    See Tour Dates
+                </a>
+                <a href="#contact" class="bg-transparent border-2 border-white hover:bg-white hover:text-black text-white font-bold py-3 px-8 rounded-full text-lg uppercase tracking-wider transition-all shadow-lg">
+                    Book The Band
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-zinc-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Band performing live" class="rounded-lg shadow-2xl grayscale hover:grayscale-0 transition duration-500">
+                </div>
+                <div>
+                    <h2 class="text-4xl font-bold text-white mb-6 border-l-4 border-rose-600 pl-4">Who We Are</h2>
+                    <p class="text-gray-300 text-lg mb-6 leading-relaxed">
+                        Based in Butler, PA, <strong>The Jentz</strong> brings the best of classic rock to stages across the Greater Pittsburgh area. Known for our tight rhythm section, searing guitar solos, and powerful vocals, we deliver a high-energy experience that keeps crowds on their feet.
+                    </p>
+                    <p class="text-gray-300 text-lg mb-8 leading-relaxed">
+                        Whether we're playing at local favorites like the Helltown Taproom or rocking outdoor festivals, our setlist is packed with the hits you know and love. We don't just play music; we put on a show.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-black/50 p-4 rounded border border-gray-800 text-center">
+                            <i data-lucide="music" class="w-8 h-8 text-rose-600 mx-auto mb-2"></i>
+                            <h4 class="font-bold">Classic Hits</h4>
+                        </div>
+                        <div class="bg-black/50 p-4 rounded border border-gray-800 text-center">
+                            <i data-lucide="mic-2" class="w-8 h-8 text-rose-600 mx-auto mb-2"></i>
+                            <h4 class="font-bold">Live Energy</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Shows -->
+    <section id="shows" class="py-20 bg-black">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-center text-white mb-16"><span class="accent-text">UPCOMING</span> SHOWS</h2>
+            
+            <div class="space-y-4">
+                <!-- Show Item 1 -->
+                <div class="bg-zinc-900 hover:bg-zinc-800 transition p-6 rounded-lg flex flex-col md:flex-row items-center justify-between border-l-4 border-rose-600 shadow-lg group">
+                    <div class="flex flex-col md:flex-row items-center gap-6 mb-4 md:mb-0 text-center md:text-left">
+                        <div class="bg-black p-3 rounded-lg min-w-[80px] text-center border border-gray-700">
+                            <span class="block text-rose-600 font-bold text-xl uppercase">JUN</span>
+                            <span class="block text-white font-bold text-3xl">14</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-rose-500 transition">Helltown Taproom</h3>
+                            <p class="text-gray-400 flex items-center justify-center md:justify-start gap-2 mt-1">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i> Butler, PA
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-gray-400 font-medium">7:00 PM</span>
+                        <a href="https://www.facebook.com/p/The-Jentz-Band-100089855997372/" target="_blank" class="px-6 py-2 border border-white rounded-full text-sm font-bold hover:bg-white hover:text-black transition uppercase">
+                            Details
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Show Item 2 -->
+                <div class="bg-zinc-900 hover:bg-zinc-800 transition p-6 rounded-lg flex flex-col md:flex-row items-center justify-between border-l-4 border-rose-600 shadow-lg group">
+                    <div class="flex flex-col md:flex-row items-center gap-6 mb-4 md:mb-0 text-center md:text-left">
+                        <div class="bg-black p-3 rounded-lg min-w-[80px] text-center border border-gray-700">
+                            <span class="block text-rose-600 font-bold text-xl uppercase">JUL</span>
+                            <span class="block text-white font-bold text-3xl">05</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-rose-500 transition">The Beacon Hotel</h3>
+                            <p class="text-gray-400 flex items-center justify-center md:justify-start gap-2 mt-1">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i> Renfrew, PA
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-gray-400 font-medium">8:00 PM</span>
+                        <a href="https://www.facebook.com/p/The-Jentz-Band-100089855997372/" target="_blank" class="px-6 py-2 border border-white rounded-full text-sm font-bold hover:bg-white hover:text-black transition uppercase">
+                            Details
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Show Item 3 -->
+                <div class="bg-zinc-900 hover:bg-zinc-800 transition p-6 rounded-lg flex flex-col md:flex-row items-center justify-between border-l-4 border-rose-600 shadow-lg group">
+                    <div class="flex flex-col md:flex-row items-center gap-6 mb-4 md:mb-0 text-center md:text-left">
+                        <div class="bg-black p-3 rounded-lg min-w-[80px] text-center border border-gray-700">
+                            <span class="block text-rose-600 font-bold text-xl uppercase">AUG</span>
+                            <span class="block text-white font-bold text-3xl">23</span>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-rose-500 transition">Fort Armstrong Festival</h3>
+                            <p class="text-gray-400 flex items-center justify-center md:justify-start gap-2 mt-1">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i> Kittanning, PA
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-gray-400 font-medium">6:00 PM</span>
+                        <a href="https://www.facebook.com/p/The-Jentz-Band-100089855997372/" target="_blank" class="px-6 py-2 border border-white rounded-full text-sm font-bold hover:bg-white hover:text-black transition uppercase">
+                            Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <p class="text-gray-400 mb-4">Want to see more dates?</p>
+                <a href="https://www.facebook.com/p/The-Jentz-Band-100089855997372/" target="_blank" class="inline-flex items-center text-rose-500 hover:text-rose-400 font-bold text-lg">
+                    <i data-lucide="facebook" class="w-5 h-5 mr-2"></i> Follow us on Facebook
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Preview -->
+    <section class="py-10 bg-zinc-900 overflow-hidden">
+        <div class="flex flex-wrap">
+            <div class="w-full sm:w-1/2 md:w-1/4 h-64 relative group">
+                <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Concert Crowd" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
+                <div class="absolute inset-0 bg-black/30 group-hover:bg-transparent transition"></div>
+            </div>
+            <div class="w-full sm:w-1/2 md:w-1/4 h-64 relative group">
+                <img src="https://images.unsplash.com/photo-1511735111819-9a3f77ebd907?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Guitar Player" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
+                 <div class="absolute inset-0 bg-black/30 group-hover:bg-transparent transition"></div>
+            </div>
+            <div class="w-full sm:w-1/2 md:w-1/4 h-64 relative group">
+                <img src="https://images.unsplash.com/photo-1469488865564-c2de10f69f96?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Drum Kit" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
+                 <div class="absolute inset-0 bg-black/30 group-hover:bg-transparent transition"></div>
+            </div>
+            <div class="w-full sm:w-1/2 md:w-1/4 h-64 relative group">
+                <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Live Music Atmosphere" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
+                 <div class="absolute inset-0 bg-black/30 group-hover:bg-transparent transition"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-black relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-zinc-900 rounded-2xl p-8 md:p-12 shadow-2xl border border-zinc-800">
+                <div class="text-center mb-10">
+                    <h2 class="text-4xl font-bold text-white mb-4">BOOK <span class="accent-text">THE BAND</span></h2>
+                    <p class="text-gray-400">Available for festivals, bars, private parties, and corporate events.</p>
+                </div>
+
+                <form class="space-y-6" onsubmit="event.preventDefault(); alert('Thanks for your message! The Jentz will get back to you soon.');">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                            <input type="text" class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-rose-600 focus:border-transparent text-white placeholder-gray-500 transition" placeholder="Your Name" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-rose-600 focus:border-transparent text-white placeholder-gray-500 transition" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Event Details (Date, Venue, etc.)</label>
+                        <textarea rows="4" class="w-full px-4 py-3 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-rose-600 focus:border-transparent text-white placeholder-gray-500 transition" placeholder="Tell us about your event..." required></textarea>
+                    </div>
+                    <button type="submit" class="w-full btn-primary text-white font-bold py-4 rounded-lg text-lg uppercase tracking-wider shadow-lg">
+                        Send Message
+                    </button>
+                </form>
+
+                <div class="mt-10 flex flex-col md:flex-row justify-center items-center gap-8 text-gray-400 border-t border-gray-800 pt-8">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="mail" class="text-rose-600"></i>
+                        <span>booking@thejentzband.com</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="map-pin" class="text-rose-600"></i>
+                        <span>Butler / Pittsburgh, PA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-zinc-900 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider text-white mb-4 md:mb-0">THE <span class="accent-text">JENTZ</span></div>
+            <p class="text-gray-500 text-sm">© 2025 The Jentz Band. All rights reserved.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="https://www.facebook.com/p/The-Jentz-Band-100089855997372/" target="_blank" class="text-gray-400 hover:text-white transition">
+                    <i data-lucide="facebook" class="w-6 h-6"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition">
+                    <i data-lucide="instagram" class="w-6 h-6"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition">
+                    <i data-lucide="youtube" class="w-6 h-6"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const links = document.querySelectorAll('.mobile-link');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('open');
+            const icon = menu.classList.contains('open') ? 'x' : 'menu';
+            // Simple logic to swap icon using lucide
+            // For simplicity in this static file we just toggle visibility or use the list close logic
+        });
+
+        // Close mobile menu when clicking a link
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('open');
+            });
+        });
+
+        // Smooth Scroll for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
 </html>
