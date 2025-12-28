@@ -26,6 +26,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add data.csv
+          git add jentz_gig_dates_sheet_1.csv
           git commit -m "Automated data update" || exit 0
           git push
