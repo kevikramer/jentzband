@@ -1,9 +1,8 @@
 date,public_or_private,venue_event_name,location,start_time,end_time,cover,cover_charge,details,link
-12/31/25,public,The Field House,"Cabot, PA",9:00 PM,12:00 AM,No,N/A,N/A,N/A
-01/02/26,public,Live! Casino Pittsburgh,"Greensburg, PA",8:00 PM,10:00 PM,Yes,$10,N/A,N/A
-01/24/26,public,Helltown Brewing,"Butler, PA",7:00 PM,10:00 PM,No,N/A,N/A,N/A
-02/07/26,private,Renshaw Farms,"Renshaw, PA",7:00 PM,10:00 PM,N/A,N/A,N/A,N/A
-02/21/26,private,Operating Engineers,"Treasure Lake, PA",7:00 PM,10:00 PM,N/A,N/A,N/A,N/A
-03/07/26,public,Butler American Legion,"Butler, PA",7:00 PM,10:00 PM,N/A,N/A,N/A,N/A
-07/11/26,public,Helltown Brewing,"Butler, PA",7:00 PM,10:00 PM,N/A,N/A,N/A,N/A
-09/12/26,public,Herman Firehall Community Days,"Butler, PA",6:00 PM,9:00 PM,No,N/A,N/A,N/A
+1/24/2026,public,Helltown Brewing,"Butler, PA",7:00 PM,10:00 PM,No,N/A,N/A,N/A
+2/7/2026,private,Renshaw Farms,"Renshaw, PA",7:00 PM,10:00 PM,N/A,N/A,N/A,N/A
+2/21/2026,private,Operating Engineers,"Treasure Lake, PA",7:00 PM,10:00 PM,N/A,N/A,N/A,N/A
+3/7/2026,public,Butler American Legion,"Butler, PA",7:00 PM,10:00 PM,N/A,N/A,N/A,N/A
+7/11/2026,public,Helltown Brewing,"Butler, PA",7:00 PM,10:00 PM,N/A,N/A,N/A,N/A
+9/12/2026,public,Herman Firehall Community Days,"Butler, PA",6:00 PM,9:00 PM,No,N/A,N/A,N/A
+6/15/2026,public,Worthington Carnival,"Worthington, PA",TBD,TBD,No,N/A,N/A,N/A
