@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+      <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>The Jentz Band</title>
+    <meta name="description" content="The Jentz Band of Butler, PA website">
+    <meta name="author" content="Kevin Voller">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/skeleton.css">
+    <link rel="stylesheet" href="styles/colors.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    
+    </style>
+</head>
+<body style="background-color: var(--bg);">
+
+    <div class="container">
+        <div class="row custom-row-center">
+            <a href="https://www.facebook.com/p/The-Jentz-Band-100089855997372/"><button class="button-primary button-with-margin">Facebook</button></a>
+            <button class="button-primary button-with-margin">Contact</button>
+        </div>
+    <div class="hero-section">
+            <img class="hero-logo" src="imgs/jentz_logo.svg" alt="The Jentz Band Logo">
+    </div>
+
+    <div class="wrap">
+
+        <h2 class="section-title">Upcoming Shows</h2>
+        <div id="shows" class="shows">
+            <!-- JS will populate show cards here -->
+        </div>
+        <div class="see-more">See More ▾</div>
+
+        <h2 class="section-title">Meet The Band</h2>
+        <div class="band-row" id="bandRow">
+            <div class="member">
+                <div class="photo"></div>
+                <div class="name">Ken Robeson</div>
+                <div class="role">Keyboards</div>
+            </div>
+            <div class="member">
+                <div class="photo"></div>
+                <div class="name">Ray Voller</div>
+                <div class="role">Guitar</div>
+            </div>
+            <div class="member">
+                <div class="photo"></div>
+                <div class="name">Brian</div>
+                <div class="role">Guitar</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Contact</h2>
+        <div class="contact">
+            <div class="muted">Email</div>
+            <a href="mailto:thejentzband1@gmail.com">THEJENTZBAND1@GMAIL.COM</a>
+            <div style="height:8px"></div>
+            <div class="muted">Facebook</div>
+            <a href="#">JENTZ FACEBOOK</a>
+            <div style="height:8px"></div>
+            <div class="muted">Phone</div>
+            <a href="tel:+17245946343">(724) 594-6343</a>
+        </div>
+
+        <p id="timestamp" style="color:var(--muted);font-size:12px;margin-top:12px"></p>
+        <p><a href="https://docs.google.com/spreadsheets/d/1AA502Nl-wCXRfLE1axXdmCVvTS3jBy_cn_8l7HvFPMU/edit?usp=sharing">Edit gigs (admins only)</a></p>
+    </div>
+      </div>
+
+    <script>
+        // Parse CSV and populate shows. Attempts to detect common header names.
+        const csvFile = 'jentz_gig_dates_sheet_1.csv';
+
+        function findKey(keys, patterns){
+            const lower = keys.map(k=>k.toLowerCase());
+            for(const p of patterns){
+                const idx = lower.findIndex(k=>k.includes(p));
+                if(idx>=0) return keys[idx];
+            }
+            return null;
+        }
+
+        function formatDateRaw(raw){
+            if(!raw) return {month:'',day:''};
+            const d = new Date(raw);
+            if(!isNaN(d)){ const m = d.toLocaleString('en-us',{month:'short'}).toUpperCase(); return {month:m,day:String(d.getDate()).padStart(2,'0')}; }
+            // fallback try to extract numbers
+            const m = raw.split(/\s|\//).filter(Boolean)[0];
+            return {month:m.toUpperCase(),day:''};
+        }
+
+        function renderShows(rows){
+            const container = document.getElementById('shows');
+            const seeMoreBtn = document.querySelector('.see-more');
+            container.innerHTML = '';
+            if(!rows || rows.length===0){ container.innerHTML = '<div class="muted">No upcoming shows.</div>'; seeMoreBtn.style.display = 'none'; return; }
+
+            const keys = Object.keys(rows[0]);
+            const dateKey = findKey(keys,['date','day']);
+            const venueKey = findKey(keys,['venue','place','location','where','title']);
+            const locKey = findKey(keys,['city','town','state','location']);
+            const startTimeKey = findKey(keys,['start_time','start time','start']);
+            const endTimeKey = findKey(keys,['end_time','end time','end']);
+            const timeKey = findKey(keys,['time','hours']); // fallback
+            const coverKey = findKey(keys,['cover']);
+            const coverChargeKey = findKey(keys,['cover_charge','cover charge']);
+
+            const allCards = [];
+            
+            rows.forEach(r=>{
+                if(Object.values(r).every(v=>v==="")) return; // skip empty rows
+
+                const vals = Object.values(r);
+                const secondCol = vals[1] ? String(vals[1]).trim().toLowerCase() : '';
+
+                // If the second CSV column contains "private", only show date (1st col) and location (4th col)
+                if(secondCol === 'private'){
+                    const rawDate = vals[0] || '';
+                    const dt = formatDateRaw(rawDate);
+                    const locationOnly = vals[3] || '';
+
+                    const card = document.createElement('div'); card.className='show-card private-show';
+                    card.innerHTML = `
+                        <div class="date-box">
+                            <div class="date-month">${dt.month}</div>
+                            <div class="date-day">${dt.day}</div>
+                        </div>
+                        <div class="details">
+                            <div class="title"><span>Private show</span></div>
+                            <div class="meta">${locationOnly||'Private Event'}</div>
+                        </div>`;
+                    allCards.push(card);
+                    return;
+                }
+
+                const rawDate = dateKey ? r[dateKey] : '';
+                const dt = formatDateRaw(rawDate);
+                const venue = venueKey ? r[venueKey] : '';
+                const loc = locKey ? r[locKey] : '';
+                
+                // Format time range from start_time and end_time
+                let time = '';
+                const startTime = startTimeKey ? (r[startTimeKey] || '').trim() : '';
+                const endTime = endTimeKey ? (r[endTimeKey] || '').trim() : '';
+                
+                if (startTime && endTime) {
+                    // Both times available - format as range
+                    if (endTime.toUpperCase() === 'TBD' || endTime.toUpperCase() === 'TBA') {
+                        time = `${startTime} - TBD`;
+                    } else {
+                        time = `${startTime} - ${endTime}`;
+                    }
+                } else if (startTime) {
+                    // Only start time available
+                    time = startTime;
+                } else if (endTime) {
+                    // Only end time available (unlikely but handle it)
+                    time = endTime;
+                } else if (timeKey) {
+                    // Fallback to generic time column if start/end not found
+                    time = r[timeKey] || '';
+                }
+                
+                // Format cover charge
+                let coverText = '';
+                const cover = coverKey ? (r[coverKey] || '').trim() : '';
+                const coverCharge = coverChargeKey ? (r[coverChargeKey] || '').trim() : '';
+                
+                const coverLower = cover.toLowerCase();
+                const hasCoverCharge = coverLower === 'yes' && coverCharge && 
+                                      coverCharge.toUpperCase() !== 'N/A' && 
+                                      coverCharge !== '';
+                
+                if (hasCoverCharge) {
+                    // Format as "$X cover charge" (ensure $ is present)
+                    const chargeAmount = coverCharge.startsWith('$') ? coverCharge : `$${coverCharge}`;
+                    coverText = `${chargeAmount} cover charge`;
+                } else {
+                    // No cover charge
+                    coverText = 'No cover charge';
+                }
+
+                // Create Google Maps link for non-private shows
+                let mapsUrl = '';
+                if (venue && loc) {
+                    // Combine venue name and location for better search results
+                    const query = `${venue}, ${loc}`;
+                    mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+                } else if (loc) {
+                    // Fallback to location only if no venue name
+                    mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc)}`;
+                }
+
+                const card = document.createElement('div'); card.className='show-card';
+                const titleContent = mapsUrl 
+                    ? `<a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="title-link"><span>${venue||'Live Show'}</span><span class="map-pin-icon"></span></a>`
+                    : `<div class="title"><span>${venue||'Live Show'}</span><span class="map-pin-icon"></span></div>`;
+                
+                card.innerHTML = `
+                    <div class="date-box">
+                        <div class="date-month">${dt.month}</div>
+                        <div class="date-day">${dt.day}</div>
+                    </div>
+                    <div class="details">
+                        ${titleContent}
+                        <div class="meta">${loc}${time? ' • '+time: ''}${coverText ? ' • '+coverText : ''}</div>
+                    </div>`;
+                allCards.push(card);
+            });
+
+            // Show only first 5 shows by default
+            const maxInitialShows = 5;
+            allCards.forEach((card, index) => {
+                if (index >= maxInitialShows) {
+                    card.classList.add('show-hidden');
+                    card.style.display = 'none';
+                }
+                container.appendChild(card);
+            });
+
+            // Hide "See more" button if there are 5 or fewer shows
+            if (allCards.length <= maxInitialShows) {
+                seeMoreBtn.style.display = 'none';
+            } else {
+                seeMoreBtn.style.display = 'block';
+            }
+
+            // Set up "See more" button click handler
+            seeMoreBtn.onclick = function() {
+                const hiddenShows = container.querySelectorAll('.show-card.show-hidden');
+                if (hiddenShows.length > 0) {
+                    // Show all hidden shows
+                    hiddenShows.forEach(card => {
+                        card.style.display = '';
+                        card.classList.remove('show-hidden');
+                    });
+                    seeMoreBtn.style.display = 'none';
+                }
+            };
+        }
+
+        function init(){
+            Papa.parse(csvFile,{download:true,header:true,complete:function(results){ renderShows(results.data); }});
+            // set timestamp
+            fetch(csvFile).then(r=>{ const lm = r.headers.get('Last-Modified'); if(lm) document.getElementById('timestamp').innerText = 'Gig data last synced: '+new Date(lm).toLocaleString(); }).catch(()=>{});
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+        <script>
+        (function(){
+            const imgSelector = '.hero-logo';
+            const headerSelector = '.custom-row-center';
+            function sizeHeroLogo(){
+                const img = document.querySelector(imgSelector);
+                if(!img) return;
+                const header = document.querySelector(headerSelector);
+                const headerHeight = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+                const gap = 24; // desired gap between header and logo bottom
+                const vh = window.innerHeight;
+                // available viewport height for the logo
+                let available = Math.floor(vh - headerHeight - gap);
+                if(available < 120) available = Math.max(120, Math.floor(vh * 0.3));
+
+                const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+                if(isDesktop){
+                    // Force explicit height on desktop so the SVG upscales beyond its intrinsic size
+                    img.style.maxWidth = 'none';
+                    img.style.width = 'auto';
+                    img.style.height = '90vh';
+                    img.style.maxHeight = 'none';
+                } else {
+                    // compute available height for mobile/tablet and apply it
+                    img.style.maxWidth = '';
+                    img.style.width = '';
+                    img.style.maxHeight = available + 'px';
+                    img.style.height = '';
+                }
+            }
+
+            let resizeTimer = null;
+            function schedule(){
+                if(resizeTimer) clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(sizeHeroLogo, 100);
+            }
+
+            window.addEventListener('load', sizeHeroLogo);
+            window.addEventListener('DOMContentLoaded', sizeHeroLogo);
+            window.addEventListener('resize', schedule);
+            window.addEventListener('orientationchange', schedule);
+            setTimeout(sizeHeroLogo, 600);
+        })();
+        </script>
+</body>
+</html>
