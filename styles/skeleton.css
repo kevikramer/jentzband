@@ -14,6 +14,8 @@
   grid-template-columns: 1fr;
   gap: 1.5rem;
   margin-bottom: 2rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 480px) {
@@ -32,18 +34,15 @@
 
 .member {
   background-color: var(--color-grey-800);
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 100%;
   position: relative;
+  box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  .member {
-    padding: 1.5rem;
-  }
-}
+
 
 .member-label {
   position: absolute;
@@ -65,10 +64,10 @@
 
 .member .photo-wrapper {
   border: 2px solid var(--color-white);
-
-  
   padding: 0;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .member .photo {
@@ -98,6 +97,8 @@
   background-color: var(--color-grey-800);
   display: flex;
   flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
@@ -301,6 +302,9 @@
     padding-left: 0;
     padding-right: 0;
     width: auto;
+    max-width: calc(100% - 64px);
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
 }
 
