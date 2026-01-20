@@ -12,6 +12,12 @@
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -26,7 +32,7 @@
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="imgs/favicon.svg">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     
@@ -34,58 +40,131 @@
 </head>
 <body style="background-color: var(--bg);">
 
-    <div class="container">
-        <div class="row custom-row-center">
-            <a href="https://www.facebook.com/p/The-Jentz-Band-100089855997372/"><button class="button-primary button-with-margin">Facebook</button></a>
-            <button class="button-primary button-with-margin">Contact</button>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <button class="hamburger-menu" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links">
+                <a href="#upcoming-shows">UPCOMING SHOWS</a>
+                <a href="#about">ABOUT</a>
+                <a href="#contact">CONTACT</a>
+            </div>
+            <div class="nav-icons">
+                <a href="https://www.youtube.com/results?search_query=the+jentz+band" aria-label="YouTube" target="_blank">
+                    <img src="imgs/youtube_icon.svg" alt="YouTube">
+                </a>
+                <a href="https://www.facebook.com/p/The-Jentz-Band-100089855997372/" aria-label="Facebook" target="_blank">
+                    <img src="imgs/facebook_icon.svg" alt="Facebook">
+                </a>
+            </div>
         </div>
+        <div class="mobile-menu">
+            <a href="#upcoming-shows">UPCOMING SHOWS</a>
+            <a href="#about">ABOUT</a>
+            <a href="#contact">CONTACT</a>
+        </div>
+    </nav>
     <div class="hero-section">
             <img class="hero-logo" src="imgs/jentz_logo.svg" alt="The Jentz Band Logo">
     </div>
 
-    <div class="wrap">
+    <div class="container">
+        <div class="wrap">
+            <br>
+            <h2 id="upcoming-shows" class="section-title">Upcoming Shows</h2>
 
-        <h2 class="section-title">Upcoming Shows</h2>
+            <p id="timestamp" style="color:var(--muted);font-size:12px;"></p>
         <div id="shows" class="shows">
             <!-- JS will populate show cards here -->
         </div>
         <div class="see-more">See More ▾</div>
-
-        <h2 class="section-title">Meet The Band</h2>
+<br>
+        <h2 id="about" class="section-title">About The Jentz Band</h2>
         <div class="band-row" id="bandRow">
             <div class="member">
-                <div class="photo"></div>
-                <div class="name">Ken Robeson</div>
-                <div class="role">Keyboards</div>
+                <div class="member-label"></div>
+                <div class="photo-wrapper">
+                    <div class="photo">
+                        <img src="imgs/ken.jpg" alt="Ken Robeson">
+                    </div>
+                </div>
+                <div class="member-info">
+                    <div class="name">KEN ROBESON</div>
+                    <div class="role">Keyboards</div>
+                </div>
             </div>
             <div class="member">
-                <div class="photo"></div>
-                <div class="name">Ray Voller</div>
-                <div class="role">Guitar</div>
+                <div class="member-label"></div>
+                <div class="photo-wrapper">
+                    <div class="photo">
+                        <img src="imgs/ray.jpg" alt="Ray Voller">
+                    </div>
+                </div>
+                <div class="member-info">
+                    <div class="name">RAY VOLLER</div>
+                    <div class="role">Guitar</div>
+                </div>
             </div>
             <div class="member">
-                <div class="photo"></div>
-                <div class="name">Brian</div>
-                <div class="role">Guitar</div>
+                <div class="member-label"></div>
+                <div class="photo-wrapper">
+                    <div class="photo placeholder"></div>
+                </div>
+                <div class="member-info">
+                    <div class="name">BRIAN SHOLES</div>
+                    <div class="role">Guitar</div>
+                </div>
+            </div>
+            <div class="member">
+                <div class="member-label"></div>
+                <div class="photo-wrapper">
+                    <div class="photo placeholder"></div>
+                </div>
+                <div class="member-info">
+                    <div class="name">DENNY STIVASON</div>
+                    <div class="role">Bass</div>
+                </div>
+            </div>
+            <div class="member">
+                <div class="member-label"></div>
+                <div class="photo-wrapper">
+                    <div class="photo placeholder"></div>
+                </div>
+                <div class="member-info">
+                    <div class="name">JEFF CARSON JR.</div>
+                    <div class="role">Drums</div>
+                </div>
+            </div>
+            <div class="member">
+                <div class="member-label"></div>
+                <div class="photo-wrapper">
+                    <div class="photo placeholder"></div>
+                </div>
+                <div class="member-info">
+                    <div class="name">KEVIN VOLLER</div>
+                    <div class="role">Sound & backing musician</div>
+                </div>
             </div>
         </div>
 
-        <h2 class="section-title">Contact</h2>
+        <h2 id="contact" class="section-title">Contact</h2>
         <div class="contact">
-            <div class="muted">Email</div>
-            <a href="mailto:thejentzband1@gmail.com">THEJENTZBAND1@GMAIL.COM</a>
-            <div style="height:8px"></div>
             <div class="muted">Facebook</div>
-            <a href="#">JENTZ FACEBOOK</a>
+            <a href="#">The Jentz Band Facebook</a>
+            <div style="height:8px"></div>
+            <div class="muted">Email</div>
+            <a href="mailto:thejentzband1@gmail.com">Jjcarson1206@gmail.com</a> (Jeff)
             <div style="height:8px"></div>
             <div class="muted">Phone</div>
-            <a href="tel:+17245946343">(724) 594-6343</a>
+            <a href="tel:+17245946343">(724) 594-6343</a> (Jeff)
         </div>
-
-        <p id="timestamp" style="color:var(--muted);font-size:12px;margin-top:12px"></p>
-        <p><a href="https://docs.google.com/spreadsheets/d/1AA502Nl-wCXRfLE1axXdmCVvTS3jBy_cn_8l7HvFPMU/edit?usp=sharing">Edit gigs (admins only)</a></p>
+<br>
+        <p style="font-size:12px;"><a id="edit-gig-link" href="https://docs.google.com/spreadsheets/d/1AA502Nl-wCXRfLE1axXdmCVvTS3jBy_cn_8l7HvFPMU/edit?usp=sharing">Edit gigs (admins only)</a></p>
+        </div>
     </div>
-      </div>
 
     <script>
         // Parse CSV and populate shows. Attempts to detect common header names.
@@ -309,6 +388,28 @@
             window.addEventListener('resize', schedule);
             window.addEventListener('orientationchange', schedule);
             setTimeout(sizeHeroLogo, 600);
+        })();
+
+        // Hamburger menu toggle
+        (function() {
+            const hamburger = document.querySelector('.hamburger-menu');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', function() {
+                    const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+                    hamburger.setAttribute('aria-expanded', !isExpanded);
+                    mobileMenu.classList.toggle('active');
+                });
+
+                // Close menu when clicking on a link
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        hamburger.setAttribute('aria-expanded', 'false');
+                        mobileMenu.classList.remove('active');
+                    });
+                });
+            }
         })();
         </script>
 </body>
