@@ -341,7 +341,7 @@
         function init(){
             Papa.parse(csvFile,{download:true,header:true,complete:function(results){ renderShows(results.data); }});
             // set timestamp
-            fetch(csvFile).then(r=>{ const lm = r.headers.get('Last-Modified'); if(lm) document.getElementById('timestamp').innerText = 'Gig data last synced: '+new Date(lm).toLocaleString(); }).catch(()=>{});
+            fetch(csvFile).then(r=>{ const lm = r.headers.get('Last-Modified'); if(lm) document.getElementById('timestamp').innerText = 'Last updated: '+new Date(lm).toLocaleString(); }).catch(()=>{});
         }
 
         window.addEventListener('DOMContentLoaded', init);
