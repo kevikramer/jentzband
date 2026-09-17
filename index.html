@@ -34,9 +34,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="icon" type="image/svg+xml" href="imgs/favicon.svg">
     
-    < src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body style="background-color: var(--bg);">
 
@@ -175,204 +173,203 @@
     </div>
 
     <script>
-    // Parse CSV and populate shows. Attempts to detect common header names.
-    const csvFile = 'jentz_gig_dates_sheet_1.csv';
+        // Parse CSV and populate shows. Attempts to detect common header names.
+        const csvFile = 'jentz_gig_dates_sheet_1.csv';
 
-    function findKey(keys, patterns){
-        const lower = keys.map(k=>k.toLowerCase());
-        for(const p of patterns){
-            const idx = lower.findIndex(k=>k.includes(p));
-            if(idx>=0) return keys[idx];
+        function findKey(keys, patterns){
+            const lower = keys.map(k=>k.toLowerCase());
+            for(const p of patterns){
+                const idx = lower.findIndex(k=>k.includes(p));
+                if(idx>=0) return keys[idx];
+            }
+            return null;
         }
-        return null;
-    }
 
-    function parseDateValue(raw){
-        if(!raw) return null;
-        const value = String(raw).trim();
+        function parseDateValue(raw){
+            if(!raw) return null;
+            const value = String(raw).trim();
 
-        // Handle MM/DD/YYYY
-        const usMatch = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
-        if(usMatch){
-            const [, month, day, year] = usMatch;
-            const safeYear = year.length === 2 ? `20${year}` : year;
-            const dt = new Date(`${safeYear}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`);
+            // Handle MM/DD/YYYY
+            const usMatch = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+            if(usMatch){
+                const [, month, day, year] = usMatch;
+                const safeYear = year.length === 2 ? `20${year}` : year;
+                const dt = new Date(`${safeYear}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`);
+                if(!isNaN(dt.getTime())) return dt;
+            }
+
+            const dt = new Date(value);
             if(!isNaN(dt.getTime())) return dt;
+            return null;
         }
 
-        // Fallback: native JS Date parsing
-        const dt = new Date(value);
-        if(!isNaN(dt.getTime())) return dt;
-
-        return null;
-    }
-
-    function formatDateRaw(raw){
-        if(!raw) return {month:'',day:''};
-        const d = parseDateValue(raw);
-        if(d){
-            const m = d.toLocaleString('en-us',{month:'short'}).toUpperCase();
-            return {month:m,day:String(d.getDate()).padStart(2,'0')};
-        }
-        const m = raw.split(/\s|\//).filter(Boolean)[0];
-        return {month:m ? m.toUpperCase() : '',day:''};
-    }
-
-    function renderShows(rows){
-        const container = document.getElementById('shows');
-        const seeMoreBtn = document.querySelector('.see-more');
-        container.innerHTML = '';
-
-        if(!rows || rows.length===0){
-            container.innerHTML = '<div class="muted">No upcoming shows.</div>';
-            seeMoreBtn.style.display = 'none';
-            return;
+        function formatDateRaw(raw){
+            if(!raw) return {month:'',day:''};
+            const d = parseDateValue(raw);
+            if(d){
+                const m = d.toLocaleString('en-us',{month:'short'}).toUpperCase();
+                return {month:m,day:String(d.getDate()).padStart(2,'0')};
+            }
+            const m = raw.split(/\s|\//).filter(Boolean)[0];
+            return {month:m ? m.toUpperCase() : '',day:''};
         }
 
-        const keys = Object.keys(rows[0]);
-        const dateKey = findKey(keys,['date','day']);
-        const venueKey = findKey(keys,['venue','place','location','where','title']);
-        const locKey = findKey(keys,['city','town','state','location']);
-        const startTimeKey = findKey(keys,['start_time','start time','start']);
-        const endTimeKey = findKey(keys,['end_time','end time','end']);
-        const timeKey = findKey(keys,['time','hours']);
-        const coverKey = findKey(keys,['cover']);
-        const coverChargeKey = findKey(keys,['cover_charge','cover charge']);
+        function renderShows(rows){
+            const container = document.getElementById('shows');
+            const seeMoreBtn = document.querySelector('.see-more');
+            container.innerHTML = '';
+            if(!rows || rows.length===0){
+                container.innerHTML = '<div class="muted">No upcoming shows.</div>';
+                seeMoreBtn.style.display = 'none';
+                return;
+            }
 
-        const sortedRows = [...rows]
-            .filter(r => !Object.values(r).every(v => v === "" || v === null || v === undefined))
-            .sort((a, b) => {
-                const aDate = parseDateValue(dateKey ? a[dateKey] : '');
-                const bDate = parseDateValue(dateKey ? b[dateKey] : '');
-                if (!aDate && !bDate) return 0;
-                if (!aDate) return 1;
-                if (!bDate) return -1;
-                return aDate - bDate;
-            });
+            const keys = Object.keys(rows[0]);
+            const dateKey = findKey(keys,['date','day']);
+            const venueKey = findKey(keys,['venue','place','location','where','title']);
+            const locKey = findKey(keys,['city','town','state','location']);
+            const startTimeKey = findKey(keys,['start_time','start time','start']);
+            const endTimeKey = findKey(keys,['end_time','end time','end']);
+            const timeKey = findKey(keys,['time','hours']);
+            const coverKey = findKey(keys,['cover']);
+            const coverChargeKey = findKey(keys,['cover_charge','cover charge']);
 
-        const allCards = [];
+            const sortedRows = [...rows]
+                .filter(r => !Object.values(r).every(v => v === "" || v === null || v === undefined))
+                .sort((a, b) => {
+                    const aDate = parseDateValue(dateKey ? a[dateKey] : '');
+                    const bDate = parseDateValue(dateKey ? b[dateKey] : '');
+                    if(!aDate && !bDate) return 0;
+                    if(!aDate) return 1;
+                    if(!bDate) return -1;
+                    return aDate - bDate;
+                });
 
-        sortedRows.forEach(r=>{
-            const vals = Object.values(r);
-            const secondCol = vals[1] ? String(vals[1]).trim().toLowerCase() : '';
+            const allCards = [];
+            sortedRows.forEach(r=>{
+                const vals = Object.values(r);
+                const secondCol = vals[1] ? String(vals[1]).trim().toLowerCase() : '';
 
-            if(secondCol === 'private'){
-                const rawDate = vals[0] || '';
+                if(secondCol === 'private'){
+                    const rawDate = vals[0] || '';
+                    const dt = formatDateRaw(rawDate);
+                    const locationOnly = vals[3] || '';
+
+                    const card = document.createElement('div'); card.className='show-card private-show';
+                    card.innerHTML = `
+                        <div class="date-box">
+                            <div class="date-month">${dt.month}</div>
+                            <div class="date-day">${dt.day}</div>
+                        </div>
+                        <div class="details">
+                            <div class="title"><span>Private show</span></div>
+                            <div class="meta">${locationOnly||'Private Event'}</div>
+                        </div>`;
+                    allCards.push(card);
+                    return;
+                }
+
+                const rawDate = dateKey ? r[dateKey] : '';
                 const dt = formatDateRaw(rawDate);
-                const locationOnly = vals[3] || '';
+                const venue = venueKey ? r[venueKey] : '';
+                const loc = locKey ? r[locKey] : '';
 
-                const card = document.createElement('div'); card.className='show-card private-show';
+                let time = '';
+                const startTime = startTimeKey ? (r[startTimeKey] || '').trim() : '';
+                const endTime = endTimeKey ? (r[endTimeKey] || '').trim() : '';
+
+                if (startTime && endTime) {
+                    if (endTime.toUpperCase() === 'TBD' || endTime.toUpperCase() === 'TBA') {
+                        time = `${startTime} - TBD`;
+                    } else {
+                        time = `${startTime} - ${endTime}`;
+                    }
+                } else if (startTime) {
+                    time = startTime;
+                } else if (endTime) {
+                    time = endTime;
+                } else if (timeKey) {
+                    time = r[timeKey] || '';
+                }
+
+                let coverText = '';
+                const cover = coverKey ? (r[coverKey] || '').trim() : '';
+                const coverCharge = coverChargeKey ? (r[coverChargeKey] || '').trim() : '';
+
+                const coverLower = cover.toLowerCase();
+                const hasCoverCharge = coverLower === 'yes' && coverCharge &&
+                                      coverCharge.toUpperCase() !== 'N/A' &&
+                                      coverCharge !== '';
+
+                if (hasCoverCharge) {
+                    const chargeAmount = coverCharge.startsWith('$') ? coverCharge : `$${coverCharge}`;
+                    coverText = `${chargeAmount} cover charge`;
+                } else {
+                    coverText = 'No cover charge';
+                }
+
+                let mapsUrl = '';
+                if (venue && loc) {
+                    const query = `${venue}, ${loc}`;
+                    mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+                } else if (loc) {
+                    mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc)}`;
+                }
+
+                const card = document.createElement('div'); card.className='show-card';
+                const titleContent = mapsUrl
+                    ? `<a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="title-link"><span>${venue||'Live Show'}</span><span class="map-pin-icon"></span></a>`
+                    : `<div class="title"><span>${venue||'Live Show'}</span><span class="map-pin-icon"></span></div>`;
+
                 card.innerHTML = `
                     <div class="date-box">
                         <div class="date-month">${dt.month}</div>
                         <div class="date-day">${dt.day}</div>
                     </div>
                     <div class="details">
-                        <div class="title"><span>Private show</span></div>
-                        <div class="meta">${locationOnly||'Private Event'}</div>
+                        ${titleContent}
+                        <div class="meta">${loc}${time? ' • '+time: ''}${coverText ? ' • '+coverText : ''}</div>
                     </div>`;
                 allCards.push(card);
-                return;
-            }
+            });
 
-            const rawDate = dateKey ? r[dateKey] : '';
-            const dt = formatDateRaw(rawDate);
-            const venue = venueKey ? r[venueKey] : '';
-            const loc = locKey ? r[locKey] : '';
-
-            let time = '';
-            const startTime = startTimeKey ? (r[startTimeKey] || '').trim() : '';
-            const endTime = endTimeKey ? (r[endTimeKey] || '').trim() : '';
-
-            if (startTime && endTime) {
-                if (endTime.toUpperCase() === 'TBD' || endTime.toUpperCase() === 'TBA') {
-                    time = `${startTime} - TBD`;
-                } else {
-                    time = `${startTime} - ${endTime}`;
+            const maxInitialShows = 5;
+            allCards.forEach((card, index) => {
+                if (index >= maxInitialShows) {
+                    card.classList.add('show-hidden');
+                    card.style.display = 'none';
                 }
-            } else if (startTime) {
-                time = startTime;
-            } else if (endTime) {
-                time = endTime;
-            } else if (timeKey) {
-                time = r[timeKey] || '';
-            }
+                container.appendChild(card);
+            });
 
-            let coverText = '';
-            const cover = coverKey ? (r[coverKey] || '').trim() : '';
-            const coverCharge = coverChargeKey ? (r[coverChargeKey] || '').trim() : '';
-
-            const coverLower = cover.toLowerCase();
-            const hasCoverCharge = coverLower === 'yes' && coverCharge &&
-                                  coverCharge.toUpperCase() !== 'N/A' &&
-                                  coverCharge !== '';
-
-            if (hasCoverCharge) {
-                const chargeAmount = coverCharge.startsWith('$') ? coverCharge : `$${coverCharge}`;
-                coverText = `${chargeAmount} cover charge`;
+            if (allCards.length <= maxInitialShows) {
+                seeMoreBtn.style.display = 'none';
             } else {
-                coverText = 'No cover charge';
+                seeMoreBtn.style.display = 'block';
             }
 
-            let mapsUrl = '';
-            if (venue && loc) {
-                const query = `${venue}, ${loc}`;
-                mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-            } else if (loc) {
-                mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc)}`;
-            }
-
-            const card = document.createElement('div'); card.className='show-card';
-            const titleContent = mapsUrl
-                ? `<a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="title-link"><span>${venue||'Live Show'}</span><span class="map-pin-icon"></span></a>`
-                : `<div class="title"><span>${venue||'Live Show'}</span><span class="map-pin-icon"></span></div>`;
-
-            card.innerHTML = `
-                <div class="date-box">
-                    <div class="date-month">${dt.month}</div>
-                    <div class="date-day">${dt.day}</div>
-                </div>
-                <div class="details">
-                    ${titleContent}
-                    <div class="meta">${loc}${time? ' • '+time: ''}${coverText ? ' • '+coverText : ''}</div>
-                </div>`;
-            allCards.push(card);
-        });
-
-        const maxInitialShows = 5;
-        allCards.forEach((card, index) => {
-            if (index >= maxInitialShows) {
-                card.classList.add('show-hidden');
-                card.style.display = 'none';
-            }
-            container.appendChild(card);
-        });
-
-        if (allCards.length <= maxInitialShows) {
-            seeMoreBtn.style.display = 'none';
-        } else {
-            seeMoreBtn.style.display = 'block';
+            seeMoreBtn.onclick = function() {
+                const hiddenShows = container.querySelectorAll('.show-card.show-hidden');
+                if (hiddenShows.length > 0) {
+                    hiddenShows.forEach(card => {
+                        card.style.display = '';
+                        card.classList.remove('show-hidden');
+                    });
+                    seeMoreBtn.style.display = 'none';
+                }
+            };
         }
 
-        seeMoreBtn.onclick = function() {
-            const hiddenShows = container.querySelectorAll('.show-card.show-hidden');
-            if (hiddenShows.length > 0) {
-                hiddenShows.forEach(card => {
-                    card.style.display = '';
-                    card.classList.remove('show-hidden');
-                });
-                seeMoreBtn.style.display = 'none';
-            }
-        };
-    }
+        function init(){
+            Papa.parse(csvFile,{download:true,header:true,complete:function(results){ renderShows(results.data); }});
+            fetch(csvFile).then(r => {
+                const lm = r.headers.get('Last-Modified');
+                if(lm) document.getElementById('timestamp').innerText = 'Last updated: ' + new Date(lm).toLocaleString();
+            }).catch(() => {});
+        }
 
-    function init(){
-        Papa.parse(csvFile,{download:true,header:true,complete:function(results){ renderShows(results.data); }});
-        fetch(csvFile).then(r=>{ const lm = r.headers.get('Last-Modified'); if(lm) document.getElementById('timestamp').innerText = 'Last updated: '+new Date(lm).toLocaleString(); }).catch(()=>{});
-    }
-
-    window.addEventListener('DOMContentLoaded', init);
-</script>
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
         <script>
         (function(){
             const imgSelector = '.hero-logo';
